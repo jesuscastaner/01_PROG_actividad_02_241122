@@ -1,6 +1,10 @@
 package javabeans;
 
-public class Fiesta {
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
+public class FiestaLocalDateTime {
 	
 	/**
 	 * Declaración de atributos.
@@ -10,8 +14,7 @@ public class Fiesta {
 	private int bocadillos;
 	private int bebidas;
 	private int invitados;
-	private String fecha;
-	private String hora;
+	private LocalDateTime fechaHora;
 	
 	/**
 	 * Constantes que almacenan el precio en € por invitado, bebida y bocadillo.
@@ -28,24 +31,24 @@ public class Fiesta {
      * @param bocadillos
      * @param bebidas
      * @param invitados
-     * @param fecha
-     * @param hora
+     * @param fechaHora
      */
-	public Fiesta(String tipoFiesta, String direccion, int bocadillos, int bebidas, int invitados, String fecha, String hora) {
+    public FiestaLocalDateTime(String tipoFiesta, String direccion, int bocadillos, int bebidas, int invitados, LocalDateTime fechaHora) {
 		this.tipoFiesta = tipoFiesta;
 		this.direccion = direccion;
 		this.bocadillos = bocadillos;
 		this.bebidas = bebidas;
 		this.invitados = invitados;
-		this.fecha = fecha;
-		this.hora = hora;
+		this.fechaHora = fechaHora;
 	}
 	
 	/**
-	 * Constructor sin parámetros.
+	 * Constructor sin parámetros. En este caso, es necesario asegurarse de
+	 * que el atributo fechaHora no esté sin inicializar (es decir, null).
+	 * Por ello, se le da un valor por defecto.
 	 */
-	public Fiesta() {
-		
+    public FiestaLocalDateTime() {
+		this.fechaHora = LocalDateTime.of(2000, 1, 1, 0, 0);
 	}
 	
 	/**
@@ -129,35 +132,35 @@ public class Fiesta {
 	}
 
 	/**
-	 * Método getter que devuelve el valor del atributo fecha.
-	 * @return this.fecha
+	 * Método getter que devuelve la fecha (LocalDate) del atributo fechaHora.
+	 * @return this.fechaHora.toLocalDate()
 	 */
-	public String getFecha() {
-		return this.fecha;
+	public LocalDate getFecha() {
+		return this.fechaHora.toLocalDate();
 	}
 
 	/**
-	 * Método setter que establece el valor del atributo fecha.
+	 * Método setter que establece la fecha (LocalDate) del atributo fechaHora.
 	 * @param fecha
 	 */
-	public void setFecha(String fecha) {
-		this.fecha = fecha;
+	public void setFecha(LocalDate fecha) {
+		this.fechaHora = fecha.atTime(getHora());
 	}
-
+	
 	/**
-	 * Método getter que devuelve el valor del atributo hora.
-	 * @return this.hora
+	 * Método getter que devuelve la hora (LocalTime) del atributo fechaHora.
+	 * @return this.fechaHora.toLocalTime()
 	 */
-	public String getHora() {
-		return this.hora;
+	public LocalTime getHora() {
+		return this.fechaHora.toLocalTime();
 	}
 
 	/**
-	 * Método setter que establece el valor del atributo hora.
+	 * Método setter que establece la hora (LocalTime) del atributo fechaHora.
 	 * @param hora
 	 */
-	public void setHora(String hora) {
-		this.hora = hora;
+	public void setHora(LocalTime hora) {
+		this.fechaHora = hora.atDate(getFecha());
 	}
 
 	/**
@@ -179,7 +182,7 @@ public class Fiesta {
 				this.bocadillos,
 				this.bebidas,
 				this.invitados,
-				this.fecha, this.hora);
+				getFecha(), getHora());
 		return datosFiesta;
 	}
 	
